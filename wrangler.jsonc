@@ -1,0 +1,7 @@
+{
+  "name": "sarasfinance-status",
+  "compatibility_date": "2026-10-16",
+  "assets": {
+    "directory": "."
+  }
+}

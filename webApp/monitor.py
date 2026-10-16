@@ -485,9 +485,9 @@ class Monitor:
 
     def generate_rss(self, events):
         fg = FeedGenerator()
-        fg.id("https://saras-finance.github.io/PulseCheckApp/")
+        fg.id("https://status.sarasfinance.com/")
         fg.title("Saras Finance - PulseCheck Status")
-        fg.link(href="https://saras-finance.github.io/PulseCheckApp/", rel="alternate")
+        fg.link(href="https://status.sarasfinance.com/", rel="alternate")
         fg.description("Real-time health status for Saras Finance services")
 
         if not events:

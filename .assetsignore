@@ -1,0 +1,9 @@
+.venv
+.git
+.github
+.gitignore
+webApp
+desktopApp
+README.md
+GEMINI.md
+wrangler.jsonc
