@@ -552,16 +552,75 @@
             flex: 1;
             border-radius: 2px;
             min-width: 2px;
+            cursor: pointer;
             transition: opacity 0.12s ease;
         }
 
         .uptime-tick:hover {
-            opacity: 0.75;
+            opacity: 0.78;
         }
 
         .tick-up { background-color: var(--status-green); }
         .tick-down { background-color: var(--status-red); }
         .tick-none { background-color: var(--status-empty); }
+
+        /* Cloudflare-style Uptime Stick Hover Popover */
+        .uptime-popover {
+            position: fixed;
+            z-index: 9999;
+            width: 230px;
+            border-radius: 10px;
+            border: 1px solid var(--border-line);
+            background-color: var(--status-green-bg);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.1s ease;
+        }
+
+        .uptime-popover.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .uptime-popover.is-down {
+            background-color: var(--status-red-bg);
+        }
+
+        .uptime-popover-header {
+            padding: 9px 14px 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--status-green);
+        }
+
+        .uptime-popover.is-down .uptime-popover-header {
+            color: var(--status-red);
+        }
+
+        .uptime-popover-body {
+            background-color: var(--bg-base);
+            border-top: 1px solid var(--border-line);
+            border-radius: 9px;
+            padding: 11px 14px;
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--text-default);
+            position: relative;
+        }
+
+        .uptime-popover-arrow {
+            position: absolute;
+            bottom: -6px;
+            left: var(--arrow-left, 50%);
+            transform: translateX(-50%) rotate(45deg);
+            width: 10px;
+            height: 10px;
+            background-color: var(--bg-base);
+            border-right: 1px solid var(--border-line);
+            border-bottom: 1px solid var(--border-line);
+        }
 
         /* Overview Quick Group Grid */
         .overview-section {
@@ -1003,9 +1062,6 @@
                                     </svg>
                                     {% endif %}
                                     <span class="service-name">{{ endpoint.name }}</span>
-                                    {% if endpoint.url and endpoint.url.startswith('http') %}
-                                    <a href="{{ endpoint.url }}" target="_blank" rel="noopener noreferrer" class="service-link-url">({{ endpoint.url | replace('https://', '') }})</a>
-                                    {% endif %}
                                 </div>
                                 <div class="service-right">
                                     <span class="service-latency">{{ endpoint.elapsed | round(0) | int }}ms</span>
@@ -1015,7 +1071,7 @@
                             </div>
                             <div class="uptime-track" aria-label="90-day uptime history for {{ endpoint.name }}">
                                 {% for bar in endpoint.uptime_bars %}
-                                <div class="uptime-tick tick-{{ bar.status }}" title="{{ bar.label }}"></div>
+                                <div class="uptime-tick tick-{{ bar.status }}" data-date="{{ bar.date }}" data-status="{{ bar.status }}"></div>
                                 {% endfor %}
                             </div>
                         </div>
@@ -1105,8 +1161,67 @@
         </div>
     </footer>
 
+    <!-- Uptime Stick Hover Popover -->
+    <div id="uptime-popover" class="uptime-popover" role="tooltip" aria-hidden="true">
+        <div id="uptime-popover-header" class="uptime-popover-header">No incidents</div>
+        <div class="uptime-popover-body">
+            <span id="uptime-popover-date"></span>
+            <div class="uptime-popover-arrow"></div>
+        </div>
+    </div>
+
     <script>
         let currentStatusFilter = 'all';
+
+        (function setupUptimePopover() {
+            const popover = document.getElementById('uptime-popover');
+            const headerEl = document.getElementById('uptime-popover-header');
+            const dateEl = document.getElementById('uptime-popover-date');
+
+            function showPopover(tick) {
+                if (!popover || !tick) return;
+                const status = tick.getAttribute('data-status') || 'up';
+                const dateStr = tick.getAttribute('data-date') || '';
+                const isDown = status === 'down';
+
+                popover.classList.toggle('is-down', isDown);
+                headerEl.textContent = isDown ? 'Incident detected' : 'No incidents';
+                dateEl.textContent = dateStr;
+                popover.classList.add('visible');
+
+                const rect = tick.getBoundingClientRect();
+                const popWidth = 230;
+                const popHeight = popover.offsetHeight || 78;
+                const centerX = rect.left + rect.width / 2;
+
+                let left = centerX - popWidth / 2;
+                const minLeft = 12;
+                const maxLeft = window.innerWidth - popWidth - 12;
+                if (left < minLeft) left = minLeft;
+                if (left > maxLeft) left = maxLeft;
+
+                const arrowOffset = Math.max(18, Math.min(popWidth - 18, centerX - left));
+                popover.style.setProperty('--arrow-left', arrowOffset + 'px');
+                popover.style.left = left + 'px';
+                popover.style.top = (rect.top - popHeight - 10) + 'px';
+            }
+
+            function hidePopover() {
+                if (popover) popover.classList.remove('visible');
+            }
+
+            document.addEventListener('mouseover', function(e) {
+                const tick = e.target.closest('.uptime-tick');
+                if (tick) showPopover(tick);
+            });
+
+            document.addEventListener('mouseout', function(e) {
+                const tick = e.target.closest('.uptime-tick');
+                if (tick) hidePopover();
+            });
+
+            window.addEventListener('scroll', hidePopover, { passive: true });
+        })();
 
         function switchTab(tabName) {
             document.querySelectorAll('.tab-btn').forEach(btn => {

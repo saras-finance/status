@@ -17,15 +17,11 @@ groups:
         url: "https://app.sarasfinance.com"
         critical: true
         timeout: 15
-      - name: "Documentation"
+      - name: "Docs Portal"
         url: "https://docs.sarasfinance.com"
         critical: false
         timeout: 15
-      - name: "Resources"
+      - name: "Resources Platform"
         url: "https://resources.sarasfinance.com"
-        critical: false
-        timeout: 15
-      - name: "Web Portal"
-        url: "https://sarasfinance.com"
         critical: false
         timeout: 15
