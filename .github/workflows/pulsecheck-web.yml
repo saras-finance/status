@@ -2,10 +2,7 @@ name: PulseCheck Web Monitor
 
 on:
   schedule:
-    - cron: '*/5 * * * *'  # Every 5 minutes
-  push:
-    branches:
-      - main              # Run on pushes to main
+    - cron: '*/15 * * * *' # Every 15 minutes
   workflow_dispatch:      # Manual trigger
 
 concurrency:
@@ -54,10 +51,9 @@ jobs:
       run: |
         git config --global user.name "Chandra Prakash"
         git config --global user.email "cprakashagr@gmail.com"
-        git rm --ignore-unmatch webApp/index.html
         git add index.html rss.xml webApp/history.json
         if ! git diff --staged --quiet; then
-          git commit -m "Update status, rss and history [skip ci]"
+          git commit -m "Update status, rss and history"
           git pull --rebase origin main
           git push origin HEAD:main
         fi
