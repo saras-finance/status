@@ -1,19 +1,31 @@
 # Monitoring Inventory
 history_days: 90
 
+api_health:
+  url: "https://ind-prod.sarasfinance.com/health"
+  timeout: 15
+  critical: true
+
 groups:
-  - name: "Production Services"
+  - name: "Web App"
     endpoints:
-      - name: "Primary API"
-        url: "https://ind-prod.sarasfinance.com/health"
+      - name: "Admin Portal"
+        url: "https://admin.sarasfinance.com"
         critical: true
+        timeout: 15
+      - name: "Agentic Platform"
+        url: "https://app.sarasfinance.com"
+        critical: true
+        timeout: 15
+      - name: "Documentation"
+        url: "https://docs.sarasfinance.com"
+        critical: false
+        timeout: 15
+      - name: "Resources"
+        url: "https://resources.sarasfinance.com"
+        critical: false
+        timeout: 15
       - name: "Web Portal"
         url: "https://sarasfinance.com"
         critical: false
-
-  - name: "Development Services"
-    endpoints:
-      - name: "Primary API"
-        url: "https://ind-dev.sarasfinance.com/health"
-        critical: true
-
+        timeout: 15

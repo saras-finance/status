@@ -8,18 +8,28 @@ on:
       - main              # Run on pushes to main
   workflow_dispatch:      # Manual trigger
 
+concurrency:
+  group: pulsecheck-web-monitor
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
 jobs:
   monitor:
     runs-on: ubuntu-latest
-    
+    timeout-minutes: 10
+
     steps:
     - name: Checkout Code
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.9'
+        python-version: '3.11'
         cache: 'pip'
 
     - name: Install Dependencies
@@ -44,9 +54,10 @@ jobs:
       run: |
         git config --global user.name "Chandra Prakash"
         git config --global user.email "cprakashagr@gmail.com"
-        # Remove legacy file if it exists
         git rm --ignore-unmatch webApp/index.html
-        # Add root index, rss, and history
         git add index.html rss.xml webApp/history.json
-        git diff --quiet && git diff --staged --quiet || (git commit -m "Update status, rss and history [skip ci]" && git push)
-
+        if ! git diff --staged --quiet; then
+          git commit -m "Update status, rss and history [skip ci]"
+          git pull --rebase origin main
+          git push origin HEAD:main
+        fi
