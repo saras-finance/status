@@ -1,8 +1,15 @@
-name: PulseCheck Web Monitor
+name: Status Monitor
 
 on:
   schedule:
     - cron: '2,8,14,20,26,32,38,44,50,56 * * * *' # 10 times an hour (every 6 mins, offset to avoid GitHub queue spikes)
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'index.html'
+      - 'rss.xml'
+      - 'webApp/history.json'
   workflow_dispatch:      # Manual trigger
 
 concurrency:
