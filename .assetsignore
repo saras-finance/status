@@ -7,3 +7,4 @@ desktopApp
 README.md
 GEMINI.md
 wrangler.jsonc
+worker.js
