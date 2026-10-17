@@ -2,7 +2,7 @@ name: PulseCheck Web Monitor
 
 on:
   schedule:
-    - cron: '*/15 * * * *' # Every 15 minutes
+    - cron: '3,18,33,48 * * * *' # Every 15 minutes (offset from :00/:15/:30/:45 to avoid GitHub Actions queue congestion)
   workflow_dispatch:      # Manual trigger
 
 concurrency:
