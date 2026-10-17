@@ -13,6 +13,11 @@ from sendgrid.helpers.mail import Mail
 from jinja2 import Template
 from feedgen.feed import FeedGenerator
 
+try:
+    from curl_cffi import requests as cffi_requests
+except ImportError:
+    cffi_requests = None
+
 # Force IPv4 to prevent IPv6 route blackhole timeouts on Cloudflare endpoints
 urllib3_cn.allowed_gai_family = lambda: socket.AF_INET
 
@@ -144,7 +149,7 @@ class Monitor:
             ):
                 data.pop(deprecated_key, None)
             # Normalize legacy false-positive downtime records prior to v2 upgrade
-            legacy_cutoff = 1792173000.0
+            legacy_cutoff = 1792220000.0
             for key, entries in data.items():
                 for item in entries:
                     if item.get("t", 0) <= legacy_cutoff and not item.get("s", True):
@@ -176,7 +181,23 @@ class Monitor:
         last_resp = None
         for attempt in range(retries):
             start = time.time()
+            if cffi_requests is not None:
+                try:
+                    resp = cffi_requests.get(
+                        url,
+                        headers=DEFAULT_HEADERS,
+                        impersonate="chrome",
+                        timeout=timeout,
+                    )
+                    elapsed = (time.time() - start) * 1000.0
+                    if 200 <= resp.status_code < 400:
+                        return resp, elapsed, None
+                    last_resp = resp
+                except Exception as e:
+                    last_err = str(e)
+
             try:
+                start = time.time()
                 resp = requests.get(url, headers=DEFAULT_HEADERS, timeout=timeout)
                 elapsed = (time.time() - start) * 1000.0
                 if 200 <= resp.status_code < 400:
