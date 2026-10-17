@@ -1049,7 +1049,7 @@
                     </button>
                     <div class="group-body">
                         {% for endpoint in endpoints %}
-                        <div class="service-row" data-name="{{ endpoint.name | lower }} {{ group_name | lower }}" data-up="{{ 'true' if endpoint.is_up else 'false' }}">
+                        <div class="service-row" data-name="{{ endpoint.name | lower }} {{ group_name | lower }}" data-up="{{ 'true' if endpoint.is_up else 'false' }}" data-state="{{ endpoint.state | default('operational' if endpoint.is_up else 'offline') }}">
                             <div class="service-top">
                                 <div class="service-title-wrap">
                                     {% if endpoint.is_up %}
@@ -1066,7 +1066,7 @@
                                 <div class="service-right">
                                     <span class="service-latency">{{ endpoint.elapsed | round(0) | int }}ms</span>
                                     <span class="service-uptime-pct">{{ endpoint.uptime_pct }}%</span>
-                                    <span>{{ 'Operational' if endpoint.is_up else 'Outage' }}</span>
+                                    <span>{{ endpoint.status_text | default('Operational' if endpoint.is_up else 'Outage') }}</span>
                                 </div>
                             </div>
                             <div class="uptime-track" aria-label="90-day uptime history for {{ endpoint.name }}">
@@ -1269,13 +1269,8 @@
                 let visibleRows = 0;
                 group.querySelectorAll('.service-row').forEach(row => {
                     const nameMatch = !query || row.dataset.name.includes(query);
-                    const isUp = row.dataset.up === 'true';
-                    let statusMatch = true;
-                    if (currentStatusFilter === 'offline' || currentStatusFilter === 'degraded') {
-                        statusMatch = !isUp;
-                    } else if (currentStatusFilter === 'maintenance') {
-                        statusMatch = false;
-                    }
+                    const state = row.dataset.state || (row.dataset.up === 'true' ? 'operational' : 'offline');
+                    const statusMatch = currentStatusFilter === 'all' || state === currentStatusFilter;
                     const show = nameMatch && statusMatch;
                     row.style.display = show ? 'flex' : 'none';
                     if (show) visibleRows++;

@@ -1,0 +1,15 @@
+# Manual Incidents & Scheduled Maintenance
+# Managed via GitHub Actions ("Report or Update Incident") or edited directly.
+# Schema per item under `incidents`:
+#   - id: "manual-1792220000"
+#     type: "incident"           # "incident" or "maintenance"
+#     impact: "minor"            # "minor", "major", "critical", "none"
+#     status: "Investigating"    # "Investigating", "Identified", "Monitoring", "Scheduled", "In Progress", "Resolved"
+#     group: "Agentic Engine"
+#     service: "LLM Gateway"
+#     title: "Elevated latency on LLM Gateway"
+#     content: "We are investigating elevated response times."
+#     time: 1792220000.0
+#     time_iso: "2026-10-17T06:53:20Z"
+#     time_display: "Oct 17, 2026, 06:53 UTC"
+incidents: []

@@ -133,11 +133,49 @@ class Monitor:
         self._lock = threading.Lock()
         self.endpoints_config = load_yaml("endpoints.yaml")
         self.alerts_config = load_yaml("alerts.yaml")
+        self.incidents_config = load_yaml("incidents.yaml")
+        self.manual_incidents = self.load_manual_incidents()
         self.providers = [PushoverAlert(), SendGridAlert(), WebhookAlert()]
         self.results = {}
         self.meta_lookup = {}
         self.history_file = "history.json"
         self.history = self.load_history()
+
+    def load_manual_incidents(self):
+        raw_list = (self.incidents_config or {}).get("incidents", [])
+        if not isinstance(raw_list, list):
+            return []
+        parsed = []
+        for idx, inc in enumerate(raw_list):
+            if not isinstance(inc, dict):
+                continue
+            ts = inc.get("time")
+            if isinstance(ts, str):
+                try:
+                    dt = datetime.fromisoformat(ts.replace("Z", "+00:00"))
+                    ts_val = dt.timestamp()
+                except Exception:
+                    ts_val = time.time()
+            elif isinstance(ts, (int, float)):
+                ts_val = float(ts)
+            else:
+                ts_val = time.time()
+
+            dt_utc = datetime.fromtimestamp(ts_val, tz=timezone.utc)
+            parsed.append({
+                "id": str(inc.get("id") or f"manual-{idx}-{int(ts_val)}"),
+                "type": str(inc.get("type") or "incident").lower(),
+                "impact": str(inc.get("impact") or "minor").lower(),
+                "status": str(inc.get("status") or "Investigating"),
+                "service": str(inc.get("service") or "All Services"),
+                "group": str(inc.get("group") or "All Groups"),
+                "title": str(inc.get("title") or "Service Incident"),
+                "content": str(inc.get("content") or ""),
+                "time": ts_val,
+                "time_iso": inc.get("time_iso") or dt_utc.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                "time_display": inc.get("time_display") or dt_utc.strftime("%b %d, %Y, %H:%M UTC"),
+            })
+        return parsed
 
     def load_history(self):
         if os.path.exists(self.history_file):
@@ -220,6 +258,19 @@ class Monitor:
         elapsed = (time.time() - start) * 1000.0
         return last_resp, elapsed, last_err
 
+    def get_active_manual_override(self, group_name, service_name):
+        for inc in self.manual_incidents:
+            if str(inc.get("status", "")).lower() == "resolved":
+                continue
+            inc_group = inc.get("group", "")
+            inc_svc = inc.get("service", "")
+            if (
+                (inc_group == group_name and inc_svc in (service_name, "All Services"))
+                or inc_group == "All Groups"
+            ):
+                return inc
+        return None
+
     def record_service_result(self, key, name, group_name, display_url, is_up, elapsed, status_code, error_msg=None, critical=False):
         if not is_up:
             self.notify(name, group_name, status_code, error_msg, critical)
@@ -239,18 +290,37 @@ class Monitor:
 
             self.meta_lookup[key] = {"name": name, "group": group_name, "url": display_url}
 
+            override = self.get_active_manual_override(group_name, name)
+            state = "operational" if is_up else "offline"
+            status_text = "Operational" if is_up else "Outage"
+            effective_up = is_up
+
+            if override:
+                if override.get("type") == "maintenance":
+                    state = "maintenance"
+                    status_text = "Maintenance"
+                else:
+                    if override.get("impact") in ("major", "critical"):
+                        state = "offline"
+                        status_text = "Outage"
+                        effective_up = False
+                    else:
+                        state = "degraded"
+                        status_text = "Degraded"
+
             result = {
                 "key": key,
                 "name": name,
                 "url": display_url,
                 "group": group_name,
-                "is_up": is_up,
-                "status_text": "Operational" if is_up else "Outage",
+                "is_up": effective_up,
+                "state": state,
+                "status_text": status_text,
                 "elapsed": safe_elapsed,
                 "status": status_code,
                 "error": error_msg,
                 "history_details": self.history[key][-30:],
-                "uptime_bars": self.calculate_bars(key),
+                "uptime_bars": self.calculate_bars(key, group_name, name),
                 "uptime_pct": self.calculate_uptime(key)
             }
 
@@ -346,7 +416,7 @@ class Monitor:
             critical=endpoint.get("critical", False)
         )
 
-    def calculate_bars(self, key):
+    def calculate_bars(self, key, group_name=None, service_name=None):
         bars = []
         now = datetime.now(timezone.utc)
         hist = self.history.get(key, [])
@@ -356,10 +426,21 @@ class Monitor:
             day_end = day_start + 86400
             day_label = day_dt.strftime("%b %d, %Y")
             day_checks = [h for h in hist if day_start <= h["t"] < day_end]
-            if not day_checks:
-                bars.append({"status": "none", "date": day_label, "label": f"{day_label}: No data recorded"})
-            elif any(not h["s"] for h in day_checks):
+
+            has_manual_incident = any(
+                inc.get("type") == "incident"
+                and day_start <= inc.get("time", 0) < day_end
+                and (
+                    (inc.get("group") == group_name and inc.get("service") in (service_name, "All Services"))
+                    or inc.get("group") == "All Groups"
+                )
+                for inc in self.manual_incidents
+            )
+
+            if has_manual_incident or any(not h["s"] for h in day_checks):
                 bars.append({"status": "down", "date": day_label, "label": f"{day_label}: Incident detected"})
+            elif not day_checks:
+                bars.append({"status": "none", "date": day_label, "label": f"{day_label}: No data recorded"})
             else:
                 bars.append({"status": "up", "date": day_label, "label": f"{day_label}: No incidents (100% Operational)"})
         return bars
@@ -384,7 +465,7 @@ class Monitor:
             provider.send(data, self.alerts_config)
 
     def collect_incidents(self):
-        events = []
+        events = list(self.manual_incidents)
         for key, hist in self.history.items():
             if len(hist) < 2:
                 continue
@@ -434,23 +515,29 @@ class Monitor:
         operational_services = 0
         degraded_services = 0
         offline_services = 0
+        maintenance_services = 0
 
         for group_name in sorted(self.results.keys(), key=lambda s: s.lower()):
             svcs = sorted(self.results[group_name], key=lambda x: x["name"].lower())
             sorted_results[group_name] = svcs
             for s in svcs:
                 total_services += 1
-                if s["is_up"]:
-                    operational_services += 1
-                else:
+                state = s.get("state", "operational" if s["is_up"] else "offline")
+                if state == "maintenance":
+                    maintenance_services += 1
+                elif state == "degraded":
+                    degraded_services += 1
+                elif state == "offline":
                     offline_services += 1
+                else:
+                    operational_services += 1
 
         summary = {
             "total": total_services,
             "operational": operational_services,
             "degraded": degraded_services,
             "offline": offline_services,
-            "maintenance": 0,
+            "maintenance": maintenance_services,
             "all_operational": offline_services == 0 and degraded_services == 0
         }
 
