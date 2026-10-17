@@ -115,6 +115,34 @@ class IncidentManager:
             })
         return parsed
 
+    def prune_old_incidents(self, history_days=90):
+        cutoff = time.time() - (history_days * 24 * 3600)
+        data = self._read_yaml(self.path)
+        raw_list = data.get("incidents", [])
+        kept = []
+        removed = False
+        for inc in raw_list:
+            if not isinstance(inc, dict):
+                continue
+            is_resolved = str(inc.get("status") or "").lower() == "resolved"
+            ts = inc.get("updated_time") or inc.get("time") or 0
+            if isinstance(ts, str):
+                try:
+                    ts = datetime.fromisoformat(ts.replace("Z", "+00:00")).timestamp()
+                except Exception:
+                    ts = time.time()
+            if is_resolved and float(ts) < cutoff:
+                removed = True
+                continue
+            kept.append(inc)
+        if removed:
+            data["incidents"] = kept
+            self._write_yaml(data, self.path)
+        self.manual_incidents = [
+            inc for inc in self.manual_incidents
+            if not (str(inc.get("status") or "").lower() == "resolved" and inc.get("time", 0) < cutoff)
+        ]
+
     def get_active_override(self, group_name, service_name):
         for inc in self.manual_incidents:
             if str(inc.get("status", "")).lower() == "resolved":

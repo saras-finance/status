@@ -79,6 +79,7 @@ class Monitor:
             self.history[key] = [h for h in self.history[key] if h["t"] > cutoff]
         with open(self.history_file, "w") as f:
             json.dump(self.history, f)
+        self.incidents.prune_old_incidents(history_days)
 
     def fetch_with_retry(self, url, timeout=15, retries=3):
         class _SimpleResponse:
