@@ -10,5 +10,11 @@
     "crons": [
       "*/10 * * * *"
     ]
+  },
+  "observability": {
+    "logs": {
+      "enabled": true,
+      "invocation_logs": true
+    }
   }
 }

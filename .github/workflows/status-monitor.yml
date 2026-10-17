@@ -1,14 +1,7 @@
 name: Status Monitor
 
 on:
-  push:
-    branches:
-      - main
-    paths-ignore:
-      - 'index.html'
-      - 'rss.xml'
-      - 'webApp/history.json'
-  workflow_dispatch:      # Triggered by Cloudflare Cron every 6 mins or manually
+  workflow_dispatch:      # Triggered by Cloudflare Cron every 10 mins or manually
 
 concurrency:
   group: pulsecheck-web-monitor
