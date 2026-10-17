@@ -3,6 +3,10 @@ name: Report or Update Incident
 on:
   workflow_dispatch:
     inputs:
+      task_id:
+        description: 'Task ID (Mandatory - use same Task ID to post timeline updates or resolve)'
+        required: true
+        type: string
       target:
         description: 'Group :: Service'
         required: true
@@ -49,16 +53,8 @@ on:
           - 'Web App :: Agentic Platform'
           - 'Web App :: Docs Portal'
           - 'Web App :: Resources Platform'
-      type:
-        description: 'Report Type'
-        required: true
-        type: choice
-        default: 'incident'
-        options:
-          - 'incident'
-          - 'maintenance'
       status:
-        description: 'Status (picking Resolved closes the active incident for the selected service)'
+        description: 'Timeline Status (select Resolved to close the incident)'
         required: true
         type: choice
         default: 'Investigating'
@@ -69,6 +65,18 @@ on:
           - 'Scheduled'
           - 'In Progress'
           - 'Resolved'
+      note:
+        description: 'Timeline Note / Critical Finding / Update Message'
+        required: true
+        type: string
+      type:
+        description: 'Report Type'
+        required: true
+        type: choice
+        default: 'incident'
+        options:
+          - 'incident'
+          - 'maintenance'
       impact:
         description: 'Impact Level'
         required: true
@@ -80,15 +88,7 @@ on:
           - 'critical'
           - 'none'
       title:
-        description: 'Incident / Maintenance Title'
-        required: true
-        type: string
-      content:
-        description: 'Details / Status Update Message'
-        required: true
-        type: string
-      incident_id:
-        description: 'Optional Incident ID (leave blank to create new or auto-match active incident)'
+        description: 'Incident Title (only needed when creating a new Task ID; leave blank on updates)'
         required: false
         type: string
 
@@ -121,23 +121,23 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r webApp/requirements.txt
 
-      - name: Update Incidents & Regenerate Status Page
+      - name: Update Incident Timeline & Regenerate Status Page
         working-directory: webApp
         env:
+          INCIDENT_TASK_ID: ${{ inputs.task_id }}
           INCIDENT_TARGET: ${{ inputs.target }}
           INCIDENT_TYPE: ${{ inputs.type }}
           INCIDENT_STATUS: ${{ inputs.status }}
           INCIDENT_IMPACT: ${{ inputs.impact }}
           INCIDENT_TITLE: ${{ inputs.title }}
-          INCIDENT_CONTENT: ${{ inputs.content }}
-          INCIDENT_ID: ${{ inputs.incident_id }}
+          INCIDENT_NOTE: ${{ inputs.note }}
           PUSHOVER_USER_KEY: ${{ secrets.PUSHOVER_USER_KEY }}
           PUSHOVER_TOKEN: ${{ secrets.PUSHOVER_TOKEN }}
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
           ALERT_WEBHOOK_URL: ${{ secrets.ALERT_WEBHOOK_URL }}
           ALERT_WEBHOOK_BEARER_TOKEN: ${{ secrets.ALERT_WEBHOOK_BEARER_TOKEN }}
         run: |
-          python manage_incident.py
+          python incident.py
           python monitor.py
 
       - name: Commit and Push Incident Update
@@ -146,7 +146,7 @@ jobs:
           git config --global user.email "cprakashagr@gmail.com"
           git add webApp/incidents.yaml index.html rss.xml webApp/history.json
           if ! git diff --staged --quiet; then
-            git commit -m "Incident update: ${{ inputs.target }} (${{ inputs.status }})"
+            git commit -m "Incident [${{ inputs.task_id }}]: ${{ inputs.target }} (${{ inputs.status }})"
             git pull --rebase origin main
             git push origin HEAD:main
           fi

@@ -772,7 +772,24 @@
             background-color: var(--bg-base);
             border: 1px solid var(--border-line);
             border-radius: 8px;
-            padding: 14px 18px;
+            padding: 16px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .history-card-header {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .history-row-id {
+            display: flex;
+            align-items: center;
+        }
+
+        .history-row-main {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -780,23 +797,131 @@
             flex-wrap: wrap;
         }
 
-        .history-card-left {
+        .history-title-group {
             display: flex;
             align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .history-duration {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-subtle);
+        }
+
+        .history-row-tags {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             gap: 12px;
+            flex-wrap: wrap;
+            padding-left: 24px;
+        }
+
+        .history-target-tags {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .task-badge {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 7px;
+            border-radius: 4px;
+            background-color: var(--bg-elevated);
+            border: 1px solid var(--border-line);
+            color: var(--text-subtle);
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            margin-left: 24px;
+        }
+
+        .target-badge {
+            font-size: 12px;
+            font-weight: 500;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background-color: var(--bg-recessed);
+            color: var(--text-subtle);
+        }
+
+        .target-badge.service {
+            background-color: var(--bg-elevated);
+            border: 1px solid var(--border-line);
+            color: var(--text-default);
+        }
+
+        .impact-badge {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .impact-badge.degraded {
+            background-color: var(--status-yellow-bg);
+            color: var(--status-yellow);
+        }
+
+        .impact-badge.outage {
+            background-color: var(--status-red-bg);
+            color: var(--status-red);
+        }
+
+        .impact-badge.maintenance {
+            background-color: rgba(29, 78, 216, 0.1);
+            color: var(--brand-primary);
         }
 
         .history-title {
-            font-size: 14px;
-            font-weight: 500;
+            font-size: 15px;
+            font-weight: 600;
         }
 
         .history-meta {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             font-size: 13px;
             color: var(--text-subtle);
+        }
+
+        .incident-timeline {
+            border-left: 2px solid var(--border-line);
+            margin-left: 7px;
+            padding-left: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .timeline-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .timeline-item-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--text-subtle);
+        }
+
+        .timeline-status {
+            font-weight: 600;
+            color: var(--text-default);
+        }
+
+        .timeline-note {
+            font-size: 13px;
+            color: var(--text-default);
+            line-height: 1.45;
         }
 
         .empty-state-box {
@@ -899,7 +1024,7 @@
             <div class="page-hero">
                 <h1 class="page-title">Saras Finance System Status</h1>
                 <p class="page-subtitle">
-                    Last updated: <span class="ts-format" data-iso="2026-10-17T07:01:35Z">2026-10-17 07:01:35 UTC</span>
+                    Last updated: <span class="ts-format" data-iso="2026-10-17T07:48:31Z">2026-10-17 07:48:31 UTC</span>
                 </p>
                 <a href="rss.xml" class="subscribe-btn">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 256 256">
@@ -910,20 +1035,20 @@
             </div>
 
             <!-- Overall System Banner -->
-            <div class="system-banner operational">
+            <div class="system-banner outage">
                 <div class="banner-left">
                     
-                    <svg class="status-icon up" style="width: 24px; height: 24px;" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256">
-                        <path d="M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"></path>
+                    <svg class="status-icon down" style="width: 24px; height: 24px;" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256">
+                        <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm-8-80V80a8,8,0,0,1,16,0v56a8,8,0,0,1-16,0Zm20,36a12,12,0,1,1-12-12A12,12,0,0,1,140,172Z"></path>
                     </svg>
                     <div>
-                        <div class="banner-title">All Systems Operational</div>
-                        <div class="banner-meta">33 of 33 services online</div>
+                        <div class="banner-title">Service Disruption Detected</div>
+                        <div class="banner-meta">0 service(s) affected</div>
                     </div>
                     
                 </div>
-                <span class="badge-pill up">
-                    Operational
+                <span class="badge-pill down">
+                    Degraded
                 </span>
             </div>
 
@@ -1015,8 +1140,152 @@
                     </button>
                 </div>
                 
-                <div class="empty-state-box">
-                    No incidents reported across any services in the last 90 days.
+                <div class="history-list">
+                    
+                    <div class="history-card">
+                        <div class="history-card-header">
+                            <div class="history-row-id">
+                                <span class="task-badge">TASK-102</span>
+                            </div>
+                            <div class="history-row-main">
+                                <div class="history-title-group">
+                                    <svg class="status-icon down" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256">
+                                        <path d="M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"></path>
+                                    </svg>
+                                    <span class="history-title">Elevated latency on LLM Gateway</span>
+                                    <span class="history-duration" data-start="1792222967.0" data-resolved="0" data-status="Investigating">(5mins)</span>
+                                </div>
+                                <div class="history-meta">
+                                    <span>Investigating</span>
+                                    <span>|</span>
+                                    <time class="ts-format" data-iso="2026-10-17T07:42:47Z">Oct 17, 2026, 07:42 UTC</time>
+                                </div>
+                            </div>
+                            <div class="history-row-tags">
+                                <div class="history-target-tags">
+                                    <span class="target-badge">Agentic Engine</span>
+                                    <span class="target-badge service">LLM Gateway</span>
+                                </div>
+                                <span class="impact-badge degraded">
+                                    Degraded (minor)
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="incident-timeline">
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-item-header">
+                                    <span class="timeline-status">Investigating</span>
+                                    <span>&bull;</span>
+                                    <time class="ts-format" data-iso="2026-10-17T07:42:47Z">Oct 17, 2026, 07:42 UTC</time>
+                                </div>
+                                <div class="timeline-note">We are investigating elevated token generation times.</div>
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="history-card">
+                        <div class="history-card-header">
+                            <div class="history-row-id">
+                                <span class="task-badge">TASK-101</span>
+                            </div>
+                            <div class="history-row-main">
+                                <div class="history-title-group">
+                                    <svg class="status-icon up" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256">
+                                        <path d="M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"></path>
+                                    </svg>
+                                    <span class="history-title">Elevated latency on LLM Gateway</span>
+                                    <span class="history-duration" data-start="1792222037.31" data-resolved="1792222952.29" data-status="Resolved">(15mins)</span>
+                                </div>
+                                <div class="history-meta">
+                                    <span>Resolved</span>
+                                    <span>|</span>
+                                    <time class="ts-format" data-iso="2026-10-17T07:42:32Z">Oct 17, 2026, 07:42 UTC</time>
+                                </div>
+                            </div>
+                            <div class="history-row-tags">
+                                <div class="history-target-tags">
+                                    <span class="target-badge">Agentic Engine</span>
+                                    <span class="target-badge service">LLM Gateway</span>
+                                </div>
+                                <span class="impact-badge degraded">
+                                    Degraded (minor)
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="incident-timeline">
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-item-header">
+                                    <span class="timeline-status">Resolved</span>
+                                    <span>&bull;</span>
+                                    <time class="ts-format" data-iso="2026-10-17T07:42:32Z">Oct 17, 2026, 07:42 UTC</time>
+                                </div>
+                                <div class="timeline-note">Traffic rerouted and response latency has returned to normal.</div>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-item-header">
+                                    <span class="timeline-status">Investigating</span>
+                                    <span>&bull;</span>
+                                    <time class="ts-format" data-iso="2026-10-17T07:42:21Z">Oct 17, 2026, 07:42 UTC</time>
+                                </div>
+                                <div class="timeline-note">We are investigating elevated token generation times.</div>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-item-header">
+                                    <span class="timeline-status">Resolved</span>
+                                    <span>&bull;</span>
+                                    <time class="ts-format" data-iso="2026-10-17T07:29:12Z">Oct 17, 2026, 07:29 UTC</time>
+                                </div>
+                                <div class="timeline-note">Traffic rerouted and response latency has returned to normal.</div>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-item-header">
+                                    <span class="timeline-status">Resolved</span>
+                                    <span>&bull;</span>
+                                    <time class="ts-format" data-iso="2026-10-17T07:28:59Z">Oct 17, 2026, 07:28 UTC</time>
+                                </div>
+                                <div class="timeline-note">Traffic rerouted and response latency has returned to normal.</div>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-item-header">
+                                    <span class="timeline-status">Identified</span>
+                                    <span>&bull;</span>
+                                    <time class="ts-format" data-iso="2026-10-17T07:28:46Z">Oct 17, 2026, 07:28 UTC</time>
+                                </div>
+                                <div class="timeline-note">Root cause identified as upstream rate limiting; rerouting traffic. also fixing the main issue</div>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-item-header">
+                                    <span class="timeline-status">Identified</span>
+                                    <span>&bull;</span>
+                                    <time class="ts-format" data-iso="2026-10-17T07:28:28Z">Oct 17, 2026, 07:28 UTC</time>
+                                </div>
+                                <div class="timeline-note">Root cause identified as upstream rate limiting; rerouting traffic.</div>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-item-header">
+                                    <span class="timeline-status">Investigating</span>
+                                    <span>&bull;</span>
+                                    <time class="ts-format" data-iso="2026-10-17T07:27:17Z">Oct 17, 2026, 07:27 UTC</time>
+                                </div>
+                                <div class="timeline-note">We are investigating elevated token generation times.</div>
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                    
                 </div>
                 
             </div>
@@ -1039,11 +1308,11 @@
             <div class="stats-grid" role="group" aria-label="Filter by status">
                 <div class="stat-card active-filter" data-status-filter="all" onclick="filterByStatus('all', this)">
                     <span class="stat-label">Operational</span>
-                    <span class="stat-value stat-operational">33</span>
+                    <span class="stat-value stat-operational">32</span>
                 </div>
                 <div class="stat-card" data-status-filter="degraded" onclick="filterByStatus('degraded', this)">
                     <span class="stat-label">Degraded</span>
-                    <span class="stat-value stat-degraded">0</span>
+                    <span class="stat-value stat-degraded">1</span>
                 </div>
                 <div class="stat-card" data-status-filter="offline" onclick="filterByStatus('offline', this)">
                     <span class="stat-label">Offline</span>
@@ -1089,7 +1358,7 @@
                                     <span class="service-name">Agents</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">58ms</span>
+                                    <span class="service-latency">54ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -1290,7 +1559,7 @@
                                     <span class="service-name">APIs</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">58ms</span>
+                                    <span class="service-latency">54ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -1491,7 +1760,7 @@
                                     <span class="service-name">Choreographer</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">64ms</span>
+                                    <span class="service-latency">65ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -1692,7 +1961,7 @@
                                     <span class="service-name">Data Handler</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">48ms</span>
+                                    <span class="service-latency">44ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -1882,7 +2151,7 @@
                             </div>
                         </div>
                         
-                        <div class="service-row" data-name="llm gateway agentic engine" data-up="true" data-state="operational">
+                        <div class="service-row" data-name="llm gateway agentic engine" data-up="true" data-state="degraded">
                             <div class="service-top">
                                 <div class="service-title-wrap">
                                     
@@ -1893,9 +2162,9 @@
                                     <span class="service-name">LLM Gateway</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">48ms</span>
+                                    <span class="service-latency">44ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
-                                    <span>Operational</span>
+                                    <span>Degraded</span>
                                 </div>
                             </div>
                             <div class="uptime-track" aria-label="90-day uptime history for LLM Gateway">
@@ -2078,7 +2347,7 @@
                                 
                                 <div class="uptime-tick tick-up" data-date="Oct 16, 2026" data-status="up"></div>
                                 
-                                <div class="uptime-tick tick-up" data-date="Oct 17, 2026" data-status="up"></div>
+                                <div class="uptime-tick tick-down" data-date="Oct 17, 2026" data-status="down"></div>
                                 
                             </div>
                         </div>
@@ -2295,7 +2564,7 @@
                                     <span class="service-name">Secure Vault</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">39ms</span>
+                                    <span class="service-latency">34ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -2496,7 +2765,7 @@
                                     <span class="service-name">Worker</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">45ms</span>
+                                    <span class="service-latency">46ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -2697,7 +2966,7 @@
                                     <span class="service-name">Workflows</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">29ms</span>
+                                    <span class="service-latency">26ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -2913,7 +3182,7 @@
                                     <span class="service-name">Audit Service</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">58ms</span>
+                                    <span class="service-latency">54ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -3114,7 +3383,7 @@
                                     <span class="service-name">Data Management</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">57ms</span>
+                                    <span class="service-latency">54ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -3315,7 +3584,7 @@
                                     <span class="service-name">Projects</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">58ms</span>
+                                    <span class="service-latency">54ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -3531,7 +3800,7 @@
                                     <span class="service-name">Assistant</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">29ms</span>
+                                    <span class="service-latency">26ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -3732,7 +4001,7 @@
                                     <span class="service-name">Meeting</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">29ms</span>
+                                    <span class="service-latency">26ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -4149,7 +4418,7 @@
                                     <span class="service-name">Auth Services</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">29ms</span>
+                                    <span class="service-latency">26ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -4350,7 +4619,7 @@
                                     <span class="service-name">External Queue Management</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">29ms</span>
+                                    <span class="service-latency">26ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -4551,7 +4820,7 @@
                                     <span class="service-name">IAM Services</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">29ms</span>
+                                    <span class="service-latency">26ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -4752,7 +5021,7 @@
                                     <span class="service-name">Internal Queue Management</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">30ms</span>
+                                    <span class="service-latency">32ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -4953,7 +5222,7 @@
                                     <span class="service-name">Notification Services</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">28ms</span>
+                                    <span class="service-latency">26ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -5355,7 +5624,7 @@
                                     <span class="service-name">Settings</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">21ms</span>
+                                    <span class="service-latency">18ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -5556,7 +5825,7 @@
                                     <span class="service-name">Tenant Services</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">21ms</span>
+                                    <span class="service-latency">18ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -5757,7 +6026,7 @@
                                     <span class="service-name">Timely Job Services</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">22ms</span>
+                                    <span class="service-latency">23ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -5973,7 +6242,7 @@
                                     <span class="service-name">Document Sign</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">21ms</span>
+                                    <span class="service-latency">17ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -6174,7 +6443,7 @@
                                     <span class="service-name">Documents</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">19ms</span>
+                                    <span class="service-latency">25ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -6375,7 +6644,7 @@
                                     <span class="service-name">Indexer</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">19ms</span>
+                                    <span class="service-latency">23ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -6576,7 +6845,7 @@
                                     <span class="service-name">Search Services</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">19ms</span>
+                                    <span class="service-latency">22ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -6777,7 +7046,7 @@
                                     <span class="service-name">Storage</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">21ms</span>
+                                    <span class="service-latency">17ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -6993,7 +7262,7 @@
                                     <span class="service-name">Admin Portal</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">181ms</span>
+                                    <span class="service-latency">203ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -7194,7 +7463,7 @@
                                     <span class="service-name">Agentic Platform</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">185ms</span>
+                                    <span class="service-latency">99ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -7395,7 +7664,7 @@
                                     <span class="service-name">Docs Portal</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">702ms</span>
+                                    <span class="service-latency">535ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -7596,7 +7865,7 @@
                                     <span class="service-name">Resources Platform</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">992ms</span>
+                                    <span class="service-latency">1031ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -7917,8 +8186,152 @@
             </div>
 
             
-            <div class="empty-state-box">
-                ✅ No downtime or maintenance incidents recorded in the last 90 days. All systems have been 100% operational.
+            <div class="history-list" id="history-items-container">
+                
+                <div class="history-card" data-type="incident" data-group="Agentic Engine" data-service="LLM Gateway">
+                    <div class="history-card-header">
+                        <div class="history-row-id">
+                            <span class="task-badge">TASK-102</span>
+                        </div>
+                        <div class="history-row-main">
+                            <div class="history-title-group">
+                                <svg class="status-icon down" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256">
+                                    <path d="M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"></path>
+                                </svg>
+                                <span class="history-title">Elevated latency on LLM Gateway</span>
+                                <span class="history-duration" data-start="1792222967.0" data-resolved="0" data-status="Investigating">(5mins)</span>
+                            </div>
+                            <div class="history-meta">
+                                <span>Investigating</span>
+                                <span>|</span>
+                                <time class="ts-format" data-iso="2026-10-17T07:42:47Z">Oct 17, 2026, 07:42 UTC</time>
+                            </div>
+                        </div>
+                        <div class="history-row-tags">
+                            <div class="history-target-tags">
+                                <span class="target-badge">Agentic Engine</span>
+                                <span class="target-badge service">LLM Gateway</span>
+                            </div>
+                            <span class="impact-badge degraded">
+                                Degraded (minor)
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="incident-timeline">
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-item-header">
+                                <span class="timeline-status">Investigating</span>
+                                <span>&bull;</span>
+                                <time class="ts-format" data-iso="2026-10-17T07:42:47Z">Oct 17, 2026, 07:42 UTC</time>
+                            </div>
+                            <div class="timeline-note">We are investigating elevated token generation times.</div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                
+                <div class="history-card" data-type="incident" data-group="Agentic Engine" data-service="LLM Gateway">
+                    <div class="history-card-header">
+                        <div class="history-row-id">
+                            <span class="task-badge">TASK-101</span>
+                        </div>
+                        <div class="history-row-main">
+                            <div class="history-title-group">
+                                <svg class="status-icon up" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256">
+                                    <path d="M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"></path>
+                                </svg>
+                                <span class="history-title">Elevated latency on LLM Gateway</span>
+                                <span class="history-duration" data-start="1792222037.31" data-resolved="1792222952.29" data-status="Resolved">(15mins)</span>
+                            </div>
+                            <div class="history-meta">
+                                <span>Resolved</span>
+                                <span>|</span>
+                                <time class="ts-format" data-iso="2026-10-17T07:42:32Z">Oct 17, 2026, 07:42 UTC</time>
+                            </div>
+                        </div>
+                        <div class="history-row-tags">
+                            <div class="history-target-tags">
+                                <span class="target-badge">Agentic Engine</span>
+                                <span class="target-badge service">LLM Gateway</span>
+                            </div>
+                            <span class="impact-badge degraded">
+                                Degraded (minor)
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="incident-timeline">
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-item-header">
+                                <span class="timeline-status">Resolved</span>
+                                <span>&bull;</span>
+                                <time class="ts-format" data-iso="2026-10-17T07:42:32Z">Oct 17, 2026, 07:42 UTC</time>
+                            </div>
+                            <div class="timeline-note">Traffic rerouted and response latency has returned to normal.</div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-item-header">
+                                <span class="timeline-status">Investigating</span>
+                                <span>&bull;</span>
+                                <time class="ts-format" data-iso="2026-10-17T07:42:21Z">Oct 17, 2026, 07:42 UTC</time>
+                            </div>
+                            <div class="timeline-note">We are investigating elevated token generation times.</div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-item-header">
+                                <span class="timeline-status">Resolved</span>
+                                <span>&bull;</span>
+                                <time class="ts-format" data-iso="2026-10-17T07:29:12Z">Oct 17, 2026, 07:29 UTC</time>
+                            </div>
+                            <div class="timeline-note">Traffic rerouted and response latency has returned to normal.</div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-item-header">
+                                <span class="timeline-status">Resolved</span>
+                                <span>&bull;</span>
+                                <time class="ts-format" data-iso="2026-10-17T07:28:59Z">Oct 17, 2026, 07:28 UTC</time>
+                            </div>
+                            <div class="timeline-note">Traffic rerouted and response latency has returned to normal.</div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-item-header">
+                                <span class="timeline-status">Identified</span>
+                                <span>&bull;</span>
+                                <time class="ts-format" data-iso="2026-10-17T07:28:46Z">Oct 17, 2026, 07:28 UTC</time>
+                            </div>
+                            <div class="timeline-note">Root cause identified as upstream rate limiting; rerouting traffic. also fixing the main issue</div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-item-header">
+                                <span class="timeline-status">Identified</span>
+                                <span>&bull;</span>
+                                <time class="ts-format" data-iso="2026-10-17T07:28:28Z">Oct 17, 2026, 07:28 UTC</time>
+                            </div>
+                            <div class="timeline-note">Root cause identified as upstream rate limiting; rerouting traffic.</div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-item-header">
+                                <span class="timeline-status">Investigating</span>
+                                <span>&bull;</span>
+                                <time class="ts-format" data-iso="2026-10-17T07:27:17Z">Oct 17, 2026, 07:27 UTC</time>
+                            </div>
+                            <div class="timeline-note">We are investigating elevated token generation times.</div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                
             </div>
             
         </section>
@@ -8065,6 +8478,31 @@
             });
         }
 
+        function formatDuration(seconds) {
+            const secs = Math.max(0, Math.round(seconds));
+            if (secs < 60) return `${Math.max(1, secs)}s`;
+            const mins = Math.floor(secs / 60);
+            if (mins < 60) return mins === 1 ? '1m' : `${mins}mins`;
+            const hrs = Math.floor(mins / 60);
+            const remMins = mins % 60;
+            if (hrs < 24) return remMins > 0 ? `${hrs}h ${remMins}m` : `${hrs}h`;
+            const days = Math.floor(hrs / 24);
+            const remHrs = hrs % 24;
+            return remHrs > 0 ? `${days}d ${remHrs}h` : `${days}d`;
+        }
+
+        function updateDurations() {
+            const nowSec = Date.now() / 1000;
+            document.querySelectorAll('.history-duration').forEach(el => {
+                const startSec = parseFloat(el.dataset.start || '0');
+                if (!startSec) return;
+                const status = (el.dataset.status || '').toLowerCase();
+                const resolvedSec = parseFloat(el.dataset.resolved || '0');
+                const endSec = (status === 'resolved' && resolvedSec > 0) ? resolvedSec : nowSec;
+                el.textContent = `(${formatDuration(endSec - startSec)})`;
+            });
+        }
+
         function updateTimezone() {
             const mode = document.getElementById('tz-selector')?.value || 'local';
             localStorage.setItem('saras-status-tz', mode);
@@ -8107,6 +8545,8 @@
                 document.getElementById('tz-selector').value = savedTz;
             }
             updateTimezone();
+            updateDurations();
+            setInterval(updateDurations, 10000);
 
             const hash = window.location.hash.replace('#', '');
             if (['overview', 'services', 'history'].includes(hash)) {

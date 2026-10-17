@@ -1,15 +1,68 @@
-# Manual Incidents & Scheduled Maintenance
-# Managed via GitHub Actions ("Report or Update Incident") or edited directly.
-# Schema per item under `incidents`:
-#   - id: "manual-1792220000"
-#     type: "incident"           # "incident" or "maintenance"
-#     impact: "minor"            # "minor", "major", "critical", "none"
-#     status: "Investigating"    # "Investigating", "Identified", "Monitoring", "Scheduled", "In Progress", "Resolved"
-#     group: "Agentic Engine"
-#     service: "LLM Gateway"
-#     title: "Elevated latency on LLM Gateway"
-#     content: "We are investigating elevated response times."
-#     time: 1792220000.0
-#     time_iso: "2026-10-17T06:53:20Z"
-#     time_display: "Oct 17, 2026, 06:53 UTC"
-incidents: []
+incidents:
+- id: TASK-102
+  type: incident
+  impact: minor
+  status: Investigating
+  group: Agentic Engine
+  service: LLM Gateway
+  title: Elevated latency on LLM Gateway
+  content: We are investigating elevated token generation times.
+  time: 1792222967.0
+  updated_time: 1792222967.0
+  time_iso: '2026-10-17T07:42:47Z'
+  time_display: Oct 17, 2026, 07:42 UTC
+  updates:
+  - status: Investigating
+    note: We are investigating elevated token generation times.
+    time: 1792222967.0
+    time_iso: '2026-10-17T07:42:47Z'
+    time_display: Oct 17, 2026, 07:42 UTC
+- id: TASK-101
+  type: incident
+  impact: minor
+  status: Resolved
+  group: Agentic Engine
+  service: LLM Gateway
+  title: Elevated latency on LLM Gateway
+  content: Traffic rerouted and response latency has returned to normal.
+  time: 1792222037.31
+  updated_time: 1792222952.29
+  time_iso: '2026-10-17T07:42:32Z'
+  time_display: Oct 17, 2026, 07:42 UTC
+  updates:
+  - status: Resolved
+    note: Traffic rerouted and response latency has returned to normal.
+    time: 1792222952.29
+    time_iso: '2026-10-17T07:42:32Z'
+    time_display: Oct 17, 2026, 07:42 UTC
+  - status: Investigating
+    note: We are investigating elevated token generation times.
+    time: 1792222941.47
+    time_iso: '2026-10-17T07:42:21Z'
+    time_display: Oct 17, 2026, 07:42 UTC
+  - status: Resolved
+    note: Traffic rerouted and response latency has returned to normal.
+    time: 1792222152.07
+    time_iso: '2026-10-17T07:29:12Z'
+    time_display: Oct 17, 2026, 07:29 UTC
+  - status: Resolved
+    note: Traffic rerouted and response latency has returned to normal.
+    time: 1792222139.14
+    time_iso: '2026-10-17T07:28:59Z'
+    time_display: Oct 17, 2026, 07:28 UTC
+  - status: Identified
+    note: Root cause identified as upstream rate limiting; rerouting traffic. also
+      fixing the main issue
+    time: 1792222126.27
+    time_iso: '2026-10-17T07:28:46Z'
+    time_display: Oct 17, 2026, 07:28 UTC
+  - status: Identified
+    note: Root cause identified as upstream rate limiting; rerouting traffic.
+    time: 1792222108.62
+    time_iso: '2026-10-17T07:28:28Z'
+    time_display: Oct 17, 2026, 07:28 UTC
+  - status: Investigating
+    note: We are investigating elevated token generation times.
+    time: 1792222037.31
+    time_iso: '2026-10-17T07:27:17Z'
+    time_display: Oct 17, 2026, 07:27 UTC

@@ -772,7 +772,24 @@
             background-color: var(--bg-base);
             border: 1px solid var(--border-line);
             border-radius: 8px;
-            padding: 14px 18px;
+            padding: 16px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .history-card-header {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .history-row-id {
+            display: flex;
+            align-items: center;
+        }
+
+        .history-row-main {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -780,23 +797,131 @@
             flex-wrap: wrap;
         }
 
-        .history-card-left {
+        .history-title-group {
             display: flex;
             align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .history-duration {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-subtle);
+        }
+
+        .history-row-tags {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             gap: 12px;
+            flex-wrap: wrap;
+            padding-left: 24px;
+        }
+
+        .history-target-tags {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .task-badge {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 7px;
+            border-radius: 4px;
+            background-color: var(--bg-elevated);
+            border: 1px solid var(--border-line);
+            color: var(--text-subtle);
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            margin-left: 24px;
+        }
+
+        .target-badge {
+            font-size: 12px;
+            font-weight: 500;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background-color: var(--bg-recessed);
+            color: var(--text-subtle);
+        }
+
+        .target-badge.service {
+            background-color: var(--bg-elevated);
+            border: 1px solid var(--border-line);
+            color: var(--text-default);
+        }
+
+        .impact-badge {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .impact-badge.degraded {
+            background-color: var(--status-yellow-bg);
+            color: var(--status-yellow);
+        }
+
+        .impact-badge.outage {
+            background-color: var(--status-red-bg);
+            color: var(--status-red);
+        }
+
+        .impact-badge.maintenance {
+            background-color: rgba(29, 78, 216, 0.1);
+            color: var(--brand-primary);
         }
 
         .history-title {
-            font-size: 14px;
-            font-weight: 500;
+            font-size: 15px;
+            font-weight: 600;
         }
 
         .history-meta {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             font-size: 13px;
             color: var(--text-subtle);
+        }
+
+        .incident-timeline {
+            border-left: 2px solid var(--border-line);
+            margin-left: 7px;
+            padding-left: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .timeline-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .timeline-item-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--text-subtle);
+        }
+
+        .timeline-status {
+            font-weight: 600;
+            color: var(--text-default);
+        }
+
+        .timeline-note {
+            font-size: 13px;
+            color: var(--text-default);
+            line-height: 1.45;
         }
 
         .empty-state-box {
@@ -971,17 +1096,48 @@
                 <div class="history-list">
                     {% for inc in incidents[:5] %}
                     <div class="history-card">
-                        <div class="history-card-left">
-                            <svg class="status-icon {{ 'up' if inc.status == 'Resolved' else 'down' }}" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256">
-                                <path d="M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"></path>
-                            </svg>
-                            <span class="history-title">{{ inc.title }}</span>
+                        <div class="history-card-header">
+                            <div class="history-row-id">
+                                <span class="task-badge">{{ inc.id }}</span>
+                            </div>
+                            <div class="history-row-main">
+                                <div class="history-title-group">
+                                    <svg class="status-icon {{ 'up' if inc.status == 'Resolved' else 'down' }}" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256">
+                                        <path d="M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"></path>
+                                    </svg>
+                                    <span class="history-title">{{ inc.title }}</span>
+                                    <span class="history-duration" data-start="{{ inc.start_time }}" data-resolved="{{ inc.resolved_time }}" data-status="{{ inc.status }}">({{ inc.duration }})</span>
+                                </div>
+                                <div class="history-meta">
+                                    <span>{{ inc.status }}</span>
+                                    <span>|</span>
+                                    <time class="ts-format" data-iso="{{ inc.time_iso }}">{{ inc.time_display }}</time>
+                                </div>
+                            </div>
+                            <div class="history-row-tags">
+                                <div class="history-target-tags">
+                                    <span class="target-badge">{{ inc.group }}</span>
+                                    <span class="target-badge service">{{ inc.service }}</span>
+                                </div>
+                                <span class="impact-badge {{ 'maintenance' if inc.type == 'maintenance' else ('outage' if inc.impact in ['major', 'critical'] else 'degraded') }}">
+                                    {{ 'Maintenance' if inc.type == 'maintenance' else ('Critical Outage' if inc.impact == 'critical' else ('Major Outage' if inc.impact == 'major' else 'Degraded (' ~ inc.impact ~ ')')) }}
+                                </span>
+                            </div>
                         </div>
-                        <div class="history-meta">
-                            <span>{{ inc.status }}</span>
-                            <span>&bull;</span>
-                            <time class="ts-format" data-iso="{{ inc.time_iso }}">{{ inc.time_display }}</time>
+                        {% if inc.updates %}
+                        <div class="incident-timeline">
+                            {% for u in inc.updates %}
+                            <div class="timeline-item">
+                                <div class="timeline-item-header">
+                                    <span class="timeline-status">{{ u.status }}</span>
+                                    <span>&bull;</span>
+                                    <time class="ts-format" data-iso="{{ u.time_iso }}">{{ u.time_display }}</time>
+                                </div>
+                                <div class="timeline-note">{{ u.note }}</div>
+                            </div>
+                            {% endfor %}
                         </div>
+                        {% endif %}
                     </div>
                     {% endfor %}
                 </div>
@@ -1126,20 +1282,48 @@
             <div class="history-list" id="history-items-container">
                 {% for inc in incidents %}
                 <div class="history-card" data-type="{{ inc.type }}" data-group="{{ inc.group }}" data-service="{{ inc.service }}">
-                    <div class="history-card-left">
-                        <svg class="status-icon {{ 'up' if inc.status == 'Resolved' else 'down' }}" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256">
-                            <path d="M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"></path>
-                        </svg>
-                        <div>
-                            <div class="history-title">{{ inc.title }}</div>
-                            <div style="font-size: 12px; color: var(--text-subtle); margin-top: 2px;">{{ inc.content }}</div>
+                    <div class="history-card-header">
+                        <div class="history-row-id">
+                            <span class="task-badge">{{ inc.id }}</span>
+                        </div>
+                        <div class="history-row-main">
+                            <div class="history-title-group">
+                                <svg class="status-icon {{ 'up' if inc.status == 'Resolved' else 'down' }}" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256">
+                                    <path d="M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"></path>
+                                </svg>
+                                <span class="history-title">{{ inc.title }}</span>
+                                <span class="history-duration" data-start="{{ inc.start_time }}" data-resolved="{{ inc.resolved_time }}" data-status="{{ inc.status }}">({{ inc.duration }})</span>
+                            </div>
+                            <div class="history-meta">
+                                <span>{{ inc.status }}</span>
+                                <span>|</span>
+                                <time class="ts-format" data-iso="{{ inc.time_iso }}">{{ inc.time_display }}</time>
+                            </div>
+                        </div>
+                        <div class="history-row-tags">
+                            <div class="history-target-tags">
+                                <span class="target-badge">{{ inc.group }}</span>
+                                <span class="target-badge service">{{ inc.service }}</span>
+                            </div>
+                            <span class="impact-badge {{ 'maintenance' if inc.type == 'maintenance' else ('outage' if inc.impact in ['major', 'critical'] else 'degraded') }}">
+                                {{ 'Maintenance' if inc.type == 'maintenance' else ('Critical Outage' if inc.impact == 'critical' else ('Major Outage' if inc.impact == 'major' else 'Degraded (' ~ inc.impact ~ ')')) }}
+                            </span>
                         </div>
                     </div>
-                    <div class="history-meta">
-                        <span>{{ inc.status }}</span>
-                        <span>&bull;</span>
-                        <time class="ts-format" data-iso="{{ inc.time_iso }}">{{ inc.time_display }}</time>
+                    {% if inc.updates %}
+                    <div class="incident-timeline">
+                        {% for u in inc.updates %}
+                        <div class="timeline-item">
+                            <div class="timeline-item-header">
+                                <span class="timeline-status">{{ u.status }}</span>
+                                <span>&bull;</span>
+                                <time class="ts-format" data-iso="{{ u.time_iso }}">{{ u.time_display }}</time>
+                            </div>
+                            <div class="timeline-note">{{ u.note }}</div>
+                        </div>
+                        {% endfor %}
                     </div>
+                    {% endif %}
                 </div>
                 {% endfor %}
             </div>
@@ -1292,6 +1476,31 @@
             });
         }
 
+        function formatDuration(seconds) {
+            const secs = Math.max(0, Math.round(seconds));
+            if (secs < 60) return `${Math.max(1, secs)}s`;
+            const mins = Math.floor(secs / 60);
+            if (mins < 60) return mins === 1 ? '1m' : `${mins}mins`;
+            const hrs = Math.floor(mins / 60);
+            const remMins = mins % 60;
+            if (hrs < 24) return remMins > 0 ? `${hrs}h ${remMins}m` : `${hrs}h`;
+            const days = Math.floor(hrs / 24);
+            const remHrs = hrs % 24;
+            return remHrs > 0 ? `${days}d ${remHrs}h` : `${days}d`;
+        }
+
+        function updateDurations() {
+            const nowSec = Date.now() / 1000;
+            document.querySelectorAll('.history-duration').forEach(el => {
+                const startSec = parseFloat(el.dataset.start || '0');
+                if (!startSec) return;
+                const status = (el.dataset.status || '').toLowerCase();
+                const resolvedSec = parseFloat(el.dataset.resolved || '0');
+                const endSec = (status === 'resolved' && resolvedSec > 0) ? resolvedSec : nowSec;
+                el.textContent = `(${formatDuration(endSec - startSec)})`;
+            });
+        }
+
         function updateTimezone() {
             const mode = document.getElementById('tz-selector')?.value || 'local';
             localStorage.setItem('saras-status-tz', mode);
@@ -1334,6 +1543,8 @@
                 document.getElementById('tz-selector').value = savedTz;
             }
             updateTimezone();
+            updateDurations();
+            setInterval(updateDurations, 10000);
 
             const hash = window.location.hash.replace('#', '');
             if (['overview', 'services', 'history'].includes(hash)) {

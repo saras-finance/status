@@ -2,6 +2,8 @@ import json
 import os
 from datetime import datetime, timedelta, timezone
 
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
 DEPRECATED_KEYS = (
     "https://ind-dev.sarasfinance.com/health",
     "https://api-dev.sarasfinance.com/health",
