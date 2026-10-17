@@ -2,6 +2,7 @@ import yaml
 import requests
 import socket
 import subprocess
+import threading
 import urllib3.util.connection as urllib3_cn
 import time
 import os
@@ -129,6 +130,7 @@ class WebhookAlert(AlertProvider):
 # --- Monitoring Core ---
 class Monitor:
     def __init__(self):
+        self._lock = threading.Lock()
         self.endpoints_config = load_yaml("endpoints.yaml")
         self.alerts_config = load_yaml("alerts.yaml")
         self.providers = [PushoverAlert(), SendGridAlert(), WebhookAlert()]
@@ -140,24 +142,7 @@ class Monitor:
     def load_history(self):
         if os.path.exists(self.history_file):
             with open(self.history_file, "r") as f:
-                data = json.load(f)
-            for deprecated_key in (
-                "https://ind-dev.sarasfinance.com/health",
-                "https://api-dev.sarasfinance.com/health",
-                "https://api-prod.sarasfinance.com/health",
-                "https://sarasfinance.com",
-            ):
-                data.pop(deprecated_key, None)
-            # Normalize legacy false-positive downtime records prior to v2 upgrade
-            legacy_cutoff = 1792220000.0
-            for key, entries in data.items():
-                for item in entries:
-                    if item.get("t", 0) <= legacy_cutoff and not item.get("s", True):
-                        item["s"] = True
-                        item["c"] = 200
-                        if not item.get("r"):
-                            item["r"] = 240.0
-            return data
+                return json.load(f)
         return {}
 
     def save_history(self):
@@ -235,64 +220,43 @@ class Monitor:
         elapsed = (time.time() - start) * 1000.0
         return last_resp, elapsed, last_err
 
-    def ensure_90_day_coverage(self, key, default_latency=25.0):
-        hist = self.history.get(key, [])
-        now = datetime.now(timezone.utc)
-        for i in range(89, -1, -1):
-            day_dt = (now - timedelta(days=i)).replace(hour=0, minute=0, second=0, microsecond=0)
-            day_start = day_dt.timestamp()
-            day_end = day_start + 86400
-            if not any(day_start <= h["t"] < day_end for h in hist):
-                hist.append({
-                    "t": day_start + 43200.0,
-                    "s": True,
-                    "r": round(default_latency, 2),
-                    "c": 200
-                })
-        hist.sort(key=lambda x: x["t"])
-        self.history[key] = hist
-
     def record_service_result(self, key, name, group_name, display_url, is_up, elapsed, status_code, error_msg=None, critical=False):
         if not is_up:
             self.notify(name, group_name, status_code, error_msg, critical)
 
+        safe_elapsed = round(float(elapsed or 0.0), 2)
         now_ts = time.time()
-        if key not in self.history:
-            # Seed baseline history from existing primary history if available
-            seed_source = self.history.get("https://ind-prod.sarasfinance.com/health") or self.history.get("https://sarasfinance.com") or []
-            self.history[key] = [
-                {"t": h["t"], "s": True, "r": round(elapsed or 25.0, 2), "c": 200}
-                for h in seed_source
-            ]
+        with self._lock:
+            if key not in self.history:
+                self.history[key] = []
 
-        self.history[key].append({
-            "t": now_ts,
-            "s": is_up,
-            "r": round(elapsed, 2),
-            "c": status_code
-        })
-        self.ensure_90_day_coverage(key, default_latency=elapsed or 25.0)
+            self.history[key].append({
+                "t": now_ts,
+                "s": is_up,
+                "r": safe_elapsed,
+                "c": status_code
+            })
 
-        self.meta_lookup[key] = {"name": name, "group": group_name, "url": display_url}
+            self.meta_lookup[key] = {"name": name, "group": group_name, "url": display_url}
 
-        result = {
-            "key": key,
-            "name": name,
-            "url": display_url,
-            "group": group_name,
-            "is_up": is_up,
-            "status_text": "Operational" if is_up else "Outage",
-            "elapsed": round(elapsed, 2),
-            "status": status_code,
-            "error": error_msg,
-            "history_details": self.history[key][-30:],
-            "uptime_bars": self.calculate_bars(key),
-            "uptime_pct": self.calculate_uptime(key)
-        }
+            result = {
+                "key": key,
+                "name": name,
+                "url": display_url,
+                "group": group_name,
+                "is_up": is_up,
+                "status_text": "Operational" if is_up else "Outage",
+                "elapsed": safe_elapsed,
+                "status": status_code,
+                "error": error_msg,
+                "history_details": self.history[key][-30:],
+                "uptime_bars": self.calculate_bars(key),
+                "uptime_pct": self.calculate_uptime(key)
+            }
 
-        if group_name not in self.results:
-            self.results[group_name] = []
-        self.results[group_name].append(result)
+            if group_name not in self.results:
+                self.results[group_name] = []
+            self.results[group_name].append(result)
 
     def check_api_health(self):
         api_cfg = self.endpoints_config.get("api_health", {})
