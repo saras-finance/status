@@ -47,6 +47,8 @@ jobs:
 
     - name: Commit and Push Status Page
       run: |
+        git config --global user.name "Chandra Prakash"
+        git config --global user.email "cprakashagr@gmail.com"
         git add index.html rss.xml webApp/history.json webApp/incidents.yaml
         if ! git diff --staged --quiet; then
           git commit -m "Update status, rss and history"
