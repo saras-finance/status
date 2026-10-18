@@ -142,8 +142,6 @@ jobs:
 
       - name: Commit and Push Incident Update
         run: |
-          git config --global user.name "Chandra Prakash"
-          git config --global user.email "cprakashagr@gmail.com"
           git add webApp/incidents.yaml index.html rss.xml webApp/history.json
           if ! git diff --staged --quiet; then
             git commit -m "Incident [${{ inputs.task_id }}]: ${{ inputs.target }} (${{ inputs.status }})"
