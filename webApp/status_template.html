@@ -562,6 +562,7 @@
 
         .tick-up { background-color: var(--status-green); }
         .tick-down { background-color: var(--status-red); }
+        .tick-degraded { background-color: var(--status-yellow); }
         .tick-none { background-color: var(--status-empty); }
 
         /* Cloudflare-style Uptime Stick Hover Popover */
@@ -588,6 +589,10 @@
             background-color: var(--status-red-bg);
         }
 
+        .uptime-popover.is-degraded {
+            background-color: var(--status-yellow-bg);
+        }
+
         .uptime-popover-header {
             padding: 9px 14px 8px;
             font-size: 13px;
@@ -597,6 +602,10 @@
 
         .uptime-popover.is-down .uptime-popover-header {
             color: var(--status-red);
+        }
+
+        .uptime-popover.is-degraded .uptime-popover-header {
+            color: var(--status-yellow);
         }
 
         .uptime-popover-body {
@@ -1227,7 +1236,7 @@
                             </div>
                             <div class="uptime-track" aria-label="90-day uptime history for {{ endpoint.name }}">
                                 {% for bar in endpoint.uptime_bars %}
-                                <div class="uptime-tick tick-{{ bar.status }}" data-date="{{ bar.date }}" data-status="{{ bar.status }}"></div>
+                                <div class="uptime-tick tick-{{ bar.status }}" data-date="{{ bar.date }}" data-status="{{ bar.status }}" data-label="{{ bar.label }}" data-detail="{{ bar.detail | default(bar.label) }}"></div>
                                 {% endfor %}
                             </div>
                         </div>
@@ -1366,11 +1375,23 @@
                 if (!popover || !tick) return;
                 const status = tick.getAttribute('data-status') || 'up';
                 const dateStr = tick.getAttribute('data-date') || '';
+                const detailStr = tick.getAttribute('data-detail') || tick.getAttribute('data-label') || dateStr;
                 const isDown = status === 'down';
+                const isDegraded = status === 'degraded';
 
-                popover.classList.toggle('is-down', isDown);
-                headerEl.textContent = isDown ? 'Incident detected' : 'No incidents';
-                dateEl.textContent = dateStr;
+                popover.classList.remove('is-down', 'is-degraded');
+                if (isDown) {
+                    popover.classList.add('is-down');
+                    headerEl.textContent = 'Incident detected';
+                } else if (isDegraded) {
+                    popover.classList.add('is-degraded');
+                    headerEl.textContent = 'Partial degradation';
+                } else if (status === 'none') {
+                    headerEl.textContent = 'No data recorded';
+                } else {
+                    headerEl.textContent = 'No incidents';
+                }
+                dateEl.textContent = detailStr;
                 popover.classList.add('visible');
 
                 const rect = tick.getBoundingClientRect();

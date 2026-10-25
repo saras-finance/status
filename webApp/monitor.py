@@ -81,7 +81,7 @@ class Monitor:
             json.dump(self.history, f)
         self.incidents.prune_old_incidents(history_days)
 
-    def fetch_with_retry(self, url, timeout=15, retries=3):
+    def fetch_with_retry(self, url, timeout=15, retries=5, retry_interval=2.0):
         class _SimpleResponse:
             def __init__(self, status_code, text):
                 self.status_code = status_code
@@ -143,7 +143,9 @@ class Monitor:
                 last_err = last_err or str(ce)
 
             if attempt < retries - 1:
-                time.sleep(1.5)
+                fail_status = f"status {last_resp.status_code}" if last_resp else f"error: {last_err}"
+                print(f"⚠️ Check attempt {attempt + 1}/{retries} failed for {url} ({fail_status}). Retrying in {retry_interval}s...")
+                time.sleep(retry_interval)
         elapsed = (time.time() - start) * 1000.0
         return last_resp, elapsed, last_err
 
@@ -194,7 +196,7 @@ class Monitor:
         critical = api_cfg.get("critical", True)
 
         print(f"🔍 Checking API Health ({url})...")
-        resp, elapsed, err = self.fetch_with_retry(url, timeout=timeout, retries=3)
+        resp, elapsed, err = self.fetch_with_retry(url, timeout=timeout, retries=5, retry_interval=2.0)
 
         is_overall_up = resp is not None and 200 <= resp.status_code < 300
         status_code = resp.status_code if resp is not None else None
@@ -257,7 +259,7 @@ class Monitor:
     def check_endpoint(self, endpoint, group_name):
         name, url = endpoint.get("name"), endpoint.get("url")
         print(f"🔍 Checking {name} ({url})...")
-        resp, elapsed, err = self.fetch_with_retry(url, timeout=endpoint.get("timeout", 15), retries=3)
+        resp, elapsed, err = self.fetch_with_retry(url, timeout=endpoint.get("timeout", 15), retries=5, retry_interval=2.0)
         status_code = resp.status_code if resp is not None else None
         is_up = resp is not None and 200 <= resp.status_code < 400
 
@@ -288,12 +290,38 @@ class Monitor:
                 day_start, day_end, group_name, service_name
             )
 
-            if has_manual_incident or any(not h["s"] for h in day_checks):
-                bars.append({"status": "down", "date": day_label, "label": f"{day_label}: Incident detected"})
-            elif not day_checks:
-                bars.append({"status": "none", "date": day_label, "label": f"{day_label}: No data recorded"})
+            if not day_checks and not has_manual_incident:
+                bars.append({
+                    "status": "none",
+                    "date": day_label,
+                    "label": f"{day_label}: No data recorded",
+                    "detail": day_label,
+                })
+                continue
+
+            total_checks = len(day_checks)
+            up_checks = len([h for h in day_checks if h.get("s", False)])
+            day_pct = round((up_checks / total_checks * 100.0), 1) if total_checks > 0 else 100.0
+
+            if has_manual_incident:
+                status = "down" if day_pct < 90.0 else "degraded"
+                label = f"{day_label}: Incident reported ({day_pct}% operational)"
+            elif day_pct == 100.0:
+                status = "up"
+                label = f"{day_label}: No incidents (100% Operational)"
+            elif day_pct >= 90.0:
+                status = "degraded"
+                label = f"{day_label}: Partial degradation ({day_pct}% operational)"
             else:
-                bars.append({"status": "up", "date": day_label, "label": f"{day_label}: No incidents (100% Operational)"})
+                status = "down"
+                label = f"{day_label}: Major outage ({day_pct}% operational)"
+
+            bars.append({
+                "status": status,
+                "date": day_label,
+                "label": label,
+                "detail": f"{day_label} • {day_pct}% operational" if total_checks > 0 else day_label,
+            })
         return bars
 
     def calculate_uptime(self, key):
