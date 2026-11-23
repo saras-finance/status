@@ -1057,7 +1057,7 @@
             <div class="page-hero">
                 <h1 class="page-title">Saras Finance System Status</h1>
                 <p class="page-subtitle">
-                    Last updated: <span class="ts-format" data-iso="2026-11-23T10:11:47Z">2026-11-23 10:11:47 UTC</span>
+                    Last updated: <span class="ts-format" data-iso="2026-11-23T10:22:05Z">2026-11-23 10:22:05 UTC</span>
                 </p>
                 <a href="rss.xml" class="subscribe-btn">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 256 256">
@@ -1068,20 +1068,20 @@
             </div>
 
             <!-- Overall System Banner -->
-            <div class="system-banner operational">
+            <div class="system-banner outage">
                 <div class="banner-left">
                     
-                    <svg class="status-icon up" style="width: 24px; height: 24px;" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256">
-                        <path d="M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"></path>
+                    <svg class="status-icon down" style="width: 24px; height: 24px;" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256">
+                        <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm-8-80V80a8,8,0,0,1,16,0v56a8,8,0,0,1-16,0Zm20,36a12,12,0,1,1-12-12A12,12,0,0,1,140,172Z"></path>
                     </svg>
                     <div>
-                        <div class="banner-title">All Systems Operational</div>
-                        <div class="banner-meta">33 of 33 services online</div>
+                        <div class="banner-title">Service Disruption Detected</div>
+                        <div class="banner-meta">1 service(s) affected</div>
                     </div>
                     
                 </div>
-                <span class="badge-pill up">
-                    Operational
+                <span class="badge-pill down">
+                    Degraded
                 </span>
             </div>
 
@@ -1134,8 +1134,8 @@
                             <div class="overview-group-name">Infra</div>
                             <div class="overview-group-sub">10 services</div>
                         </div>
-                        <span class="badge-pill up">
-                            Operational
+                        <span class="badge-pill down">
+                            Outage
                         </span>
                     </div>
                     
@@ -1173,8 +1173,53 @@
                     </button>
                 </div>
                 
-                <div class="empty-state-box">
-                    No incidents reported across any services in the last 90 days.
+                <div class="history-list">
+                    
+                    <div class="history-card">
+                        <div class="history-card-header">
+                            <div class="history-row-id">
+                                <span class="task-badge">auto-1795429324</span>
+                            </div>
+                            <div class="history-row-main">
+                                <div class="history-title-group">
+                                    <svg class="status-icon down" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256">
+                                        <path d="M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"></path>
+                                    </svg>
+                                    <span class="history-title">Internal Queue Management (Infra) outage detected</span>
+                                    <span class="history-duration" data-start="1795429324.161083" data-resolved="0" data-status="Investigating">(1s)</span>
+                                </div>
+                                <div class="history-meta">
+                                    <span>Investigating</span>
+                                    <span>|</span>
+                                    <time class="ts-format" data-iso="2026-11-23T10:22:04Z">Nov 23, 2026, 10:22 UTC</time>
+                                </div>
+                            </div>
+                            <div class="history-row-tags">
+                                <div class="history-target-tags">
+                                    <span class="target-badge">Infra</span>
+                                    <span class="target-badge service">Internal Queue Management</span>
+                                </div>
+                                <span class="impact-badge degraded">
+                                    Degraded (minor)
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="incident-timeline">
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-item-header">
+                                    <span class="timeline-status">Investigating</span>
+                                    <span>&bull;</span>
+                                    <time class="ts-format" data-iso="2026-11-23T10:22:04Z">Nov 23, 2026, 10:22 UTC</time>
+                                </div>
+                                <div class="timeline-note">Service Internal Queue Management in Infra reported an outage. Status: 503</div>
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                    
                 </div>
                 
             </div>
@@ -1197,7 +1242,7 @@
             <div class="stats-grid" role="group" aria-label="Filter by status">
                 <div class="stat-card active-filter" data-status-filter="all" onclick="filterByStatus('all', this)">
                     <span class="stat-label">Operational</span>
-                    <span class="stat-value stat-operational">33</span>
+                    <span class="stat-value stat-operational">32</span>
                 </div>
                 <div class="stat-card" data-status-filter="degraded" onclick="filterByStatus('degraded', this)">
                     <span class="stat-label">Degraded</span>
@@ -1205,7 +1250,7 @@
                 </div>
                 <div class="stat-card" data-status-filter="offline" onclick="filterByStatus('offline', this)">
                     <span class="stat-label">Offline</span>
-                    <span class="stat-value stat-offline">0</span>
+                    <span class="stat-value stat-offline">1</span>
                 </div>
                 <div class="stat-card" data-status-filter="maintenance" onclick="filterByStatus('maintenance', this)">
                     <span class="stat-label">Maintenance</span>
@@ -1247,7 +1292,7 @@
                                     <span class="service-name">Agents</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">56ms</span>
+                                    <span class="service-latency">70ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -1448,7 +1493,7 @@
                                     <span class="service-name">APIs</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">56ms</span>
+                                    <span class="service-latency">70ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -1649,7 +1694,7 @@
                                     <span class="service-name">Choreographer</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">64ms</span>
+                                    <span class="service-latency">76ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -1850,7 +1895,7 @@
                                     <span class="service-name">Data Handler</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">45ms</span>
+                                    <span class="service-latency">58ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -2051,7 +2096,7 @@
                                     <span class="service-name">LLM Gateway</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">45ms</span>
+                                    <span class="service-latency">47ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -2252,7 +2297,7 @@
                                     <span class="service-name">Orchestrator</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">55ms</span>
+                                    <span class="service-latency">62ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -2453,7 +2498,7 @@
                                     <span class="service-name">Secure Vault</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">37ms</span>
+                                    <span class="service-latency">46ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -2654,7 +2699,7 @@
                                     <span class="service-name">Worker</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">46ms</span>
+                                    <span class="service-latency">54ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -2855,7 +2900,7 @@
                                     <span class="service-name">Workflows</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">28ms</span>
+                                    <span class="service-latency">23ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -3071,7 +3116,7 @@
                                     <span class="service-name">Audit Service</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">56ms</span>
+                                    <span class="service-latency">60ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -3272,7 +3317,7 @@
                                     <span class="service-name">Data Management</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">56ms</span>
+                                    <span class="service-latency">60ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -3473,7 +3518,7 @@
                                     <span class="service-name">Projects</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">56ms</span>
+                                    <span class="service-latency">59ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -3689,7 +3734,7 @@
                                     <span class="service-name">Assistant</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">27ms</span>
+                                    <span class="service-latency">34ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -3890,7 +3935,7 @@
                                     <span class="service-name">Meeting</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">27ms</span>
+                                    <span class="service-latency">33ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -4307,7 +4352,7 @@
                                     <span class="service-name">Auth Services</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">27ms</span>
+                                    <span class="service-latency">34ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -4508,7 +4553,7 @@
                                     <span class="service-name">External Queue Management</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">27ms</span>
+                                    <span class="service-latency">33ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -4709,7 +4754,7 @@
                                     <span class="service-name">IAM Services</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">27ms</span>
+                                    <span class="service-latency">34ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -4899,20 +4944,20 @@
                             </div>
                         </div>
                         
-                        <div class="service-row" data-name="internal queue management infra" data-up="true" data-state="operational">
+                        <div class="service-row" data-name="internal queue management infra" data-up="false" data-state="offline">
                             <div class="service-top">
                                 <div class="service-title-wrap">
                                     
-                                    <svg class="status-icon up" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256">
-                                        <path d="M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"></path>
+                                    <svg class="status-icon down" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256">
+                                        <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm-8-80V80a8,8,0,0,1,16,0v56a8,8,0,0,1-16,0Zm20,36a12,12,0,1,1-12-12A12,12,0,0,1,140,172Z"></path>
                                     </svg>
                                     
                                     <span class="service-name">Internal Queue Management</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">33ms</span>
-                                    <span class="service-uptime-pct">100.0%</span>
-                                    <span>Operational</span>
+                                    <span class="service-latency">39ms</span>
+                                    <span class="service-uptime-pct">99.98%</span>
+                                    <span>Outage</span>
                                 </div>
                             </div>
                             <div class="uptime-track" aria-label="90-day uptime history for Internal Queue Management">
@@ -5095,7 +5140,7 @@
                                 
                                 <div class="uptime-tick tick-up" data-date="Nov 22, 2026" data-status="up" data-label="Nov 22, 2026: No incidents (100% Operational)" data-detail="Nov 22, 2026 • 100.0% operational"></div>
                                 
-                                <div class="uptime-tick tick-up" data-date="Nov 23, 2026" data-status="up" data-label="Nov 23, 2026: No incidents (100% Operational)" data-detail="Nov 23, 2026 • 100.0% operational"></div>
+                                <div class="uptime-tick tick-degraded" data-date="Nov 23, 2026" data-status="degraded" data-label="Nov 23, 2026: Partial degradation (98.4% operational)" data-detail="Nov 23, 2026 • 98.4% operational"></div>
                                 
                             </div>
                         </div>
@@ -5111,7 +5156,7 @@
                                     <span class="service-name">Notification Services</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">27ms</span>
+                                    <span class="service-latency">33ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -5312,7 +5357,7 @@
                                     <span class="service-name">Queue Service</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">35ms</span>
+                                    <span class="service-latency">41ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -5513,7 +5558,7 @@
                                     <span class="service-name">Settings</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">18ms</span>
+                                    <span class="service-latency">22ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -5714,7 +5759,7 @@
                                     <span class="service-name">Tenant Services</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">20ms</span>
+                                    <span class="service-latency">21ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -6131,7 +6176,7 @@
                                     <span class="service-name">Document Sign</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">20ms</span>
+                                    <span class="service-latency">21ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -6332,7 +6377,7 @@
                                     <span class="service-name">Documents</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">19ms</span>
+                                    <span class="service-latency">20ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -6533,7 +6578,7 @@
                                     <span class="service-name">Indexer</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">19ms</span>
+                                    <span class="service-latency">21ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -6734,7 +6779,7 @@
                                     <span class="service-name">Search Services</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">24ms</span>
+                                    <span class="service-latency">21ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -6935,7 +6980,7 @@
                                     <span class="service-name">Storage</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">24ms</span>
+                                    <span class="service-latency">21ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -7151,7 +7196,7 @@
                                     <span class="service-name">Admin Portal</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">81ms</span>
+                                    <span class="service-latency">162ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -7352,7 +7397,7 @@
                                     <span class="service-name">Agentic Platform</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">102ms</span>
+                                    <span class="service-latency">143ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -7553,7 +7598,7 @@
                                     <span class="service-name">Docs Portal</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">262ms</span>
+                                    <span class="service-latency">282ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -7754,7 +7799,7 @@
                                     <span class="service-name">Resources Platform</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">175ms</span>
+                                    <span class="service-latency">248ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -8075,8 +8120,53 @@
             </div>
 
             
-            <div class="empty-state-box">
-                ✅ No downtime or maintenance incidents recorded in the last 90 days. All systems have been 100% operational.
+            <div class="history-list" id="history-items-container">
+                
+                <div class="history-card" data-type="incident" data-group="Infra" data-service="Internal Queue Management">
+                    <div class="history-card-header">
+                        <div class="history-row-id">
+                            <span class="task-badge">auto-1795429324</span>
+                        </div>
+                        <div class="history-row-main">
+                            <div class="history-title-group">
+                                <svg class="status-icon down" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256">
+                                    <path d="M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"></path>
+                                </svg>
+                                <span class="history-title">Internal Queue Management (Infra) outage detected</span>
+                                <span class="history-duration" data-start="1795429324.161083" data-resolved="0" data-status="Investigating">(1s)</span>
+                            </div>
+                            <div class="history-meta">
+                                <span>Investigating</span>
+                                <span>|</span>
+                                <time class="ts-format" data-iso="2026-11-23T10:22:04Z">Nov 23, 2026, 10:22 UTC</time>
+                            </div>
+                        </div>
+                        <div class="history-row-tags">
+                            <div class="history-target-tags">
+                                <span class="target-badge">Infra</span>
+                                <span class="target-badge service">Internal Queue Management</span>
+                            </div>
+                            <span class="impact-badge degraded">
+                                Degraded (minor)
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="incident-timeline">
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-item-header">
+                                <span class="timeline-status">Investigating</span>
+                                <span>&bull;</span>
+                                <time class="ts-format" data-iso="2026-11-23T10:22:04Z">Nov 23, 2026, 10:22 UTC</time>
+                            </div>
+                            <div class="timeline-note">Service Internal Queue Management in Infra reported an outage. Status: 503</div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                
             </div>
             
         </section>
