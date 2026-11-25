@@ -990,6 +990,17 @@
         .footer-inner a:hover {
             color: var(--text-default);
         }
+
+        html.embed-hide-logo .brand-logo,
+        html.embed-hide-logo .header-links,
+        html.embed-hide-logo .theme-btn,
+        html.embed-hide-logo .footer-inner a:not([href="rss.xml"]) {
+            display: none !important;
+        }
+
+        html.embed-hide-logo .header-inner {
+            justify-content: flex-end;
+        }
     </style>
 </head>
 <body>
@@ -1579,10 +1590,7 @@
             const urlParams = new URLSearchParams(window.location.search);
             const hideLogo = urlParams.get('hideLogo');
             if (hideLogo === '1' || hideLogo === 'true') {
-                const brandLogo = document.querySelector('.brand-logo');
-                if (brandLogo) {
-                    brandLogo.style.display = 'none';
-                }
+                document.documentElement.classList.add('embed-hide-logo');
             }
 
             const savedTheme = localStorage.getItem('saras-status-theme');

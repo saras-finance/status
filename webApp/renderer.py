@@ -55,9 +55,9 @@ class StatusRenderer:
     def generate_rss(events, output_path="../rss.xml"):
         fg = FeedGenerator()
         fg.id("https://status.sarasfinance.com/")
-        fg.title("Saras Finance - PulseCheck Status")
+        fg.title("Saras Status")
         fg.link(href="https://status.sarasfinance.com/", rel="alternate")
-        fg.description("Real-time health status for Saras Finance services")
+        fg.description("Real-time health status for Saras")
 
         if not events:
             fe = fg.add_entry()
