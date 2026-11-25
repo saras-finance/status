@@ -1576,6 +1576,15 @@
         }
 
         (function init() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const hideLogo = urlParams.get('hideLogo');
+            if (hideLogo === '1' || hideLogo === 'true') {
+                const brandLogo = document.querySelector('.brand-logo');
+                if (brandLogo) {
+                    brandLogo.style.display = 'none';
+                }
+            }
+
             const savedTheme = localStorage.getItem('saras-status-theme');
             if (savedTheme) {
                 document.documentElement.setAttribute('data-theme', savedTheme);
