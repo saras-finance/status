@@ -990,6 +990,17 @@
         .footer-inner a:hover {
             color: var(--text-default);
         }
+
+        html.embed-hide-logo .brand-logo,
+        html.embed-hide-logo .header-links,
+        html.embed-hide-logo .theme-btn,
+        html.embed-hide-logo .footer-inner a:not([href="rss.xml"]) {
+            display: none !important;
+        }
+
+        html.embed-hide-logo .header-inner {
+            justify-content: flex-end;
+        }
     </style>
 </head>
 <body>
@@ -1055,9 +1066,9 @@
         <!-- TAB 1: OVERVIEW -->
         <section id="panel-overview" class="tab-panel active">
             <div class="page-hero">
-                <h1 class="page-title">Saras Finance System Status</h1>
+                <h1 class="page-title">System Status</h1>
                 <p class="page-subtitle">
-                    Last updated: <span class="ts-format" data-iso="2026-11-25T08:42:14Z">2026-11-25 08:42:14 UTC</span>
+                    Last updated: <span class="ts-format" data-iso="2026-11-25T08:52:09Z">2026-11-25 08:52:09 UTC</span>
                 </p>
                 <a href="rss.xml" class="subscribe-btn">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 256 256">
@@ -1472,7 +1483,7 @@
                                     <span class="service-name">Agents</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">121ms</span>
+                                    <span class="service-latency">70ms</span>
                                     <span class="service-uptime-pct">99.98%</span>
                                     <span>Operational</span>
                                 </div>
@@ -1673,7 +1684,7 @@
                                     <span class="service-name">APIs</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">121ms</span>
+                                    <span class="service-latency">70ms</span>
                                     <span class="service-uptime-pct">99.98%</span>
                                     <span>Operational</span>
                                 </div>
@@ -1874,7 +1885,7 @@
                                     <span class="service-name">Choreographer</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">128ms</span>
+                                    <span class="service-latency">85ms</span>
                                     <span class="service-uptime-pct">99.98%</span>
                                     <span>Operational</span>
                                 </div>
@@ -2075,7 +2086,7 @@
                                     <span class="service-name">Data Handler</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">109ms</span>
+                                    <span class="service-latency">58ms</span>
                                     <span class="service-uptime-pct">99.98%</span>
                                     <span>Operational</span>
                                 </div>
@@ -2276,7 +2287,7 @@
                                     <span class="service-name">LLM Gateway</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">109ms</span>
+                                    <span class="service-latency">58ms</span>
                                     <span class="service-uptime-pct">99.97%</span>
                                     <span>Operational</span>
                                 </div>
@@ -2477,7 +2488,7 @@
                                     <span class="service-name">Orchestrator</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">116ms</span>
+                                    <span class="service-latency">72ms</span>
                                     <span class="service-uptime-pct">99.97%</span>
                                     <span>Operational</span>
                                 </div>
@@ -2678,7 +2689,7 @@
                                     <span class="service-name">Secure Vault</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">97ms</span>
+                                    <span class="service-latency">45ms</span>
                                     <span class="service-uptime-pct">99.98%</span>
                                     <span>Operational</span>
                                 </div>
@@ -2879,7 +2890,7 @@
                                     <span class="service-name">Worker</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">105ms</span>
+                                    <span class="service-latency">59ms</span>
                                     <span class="service-uptime-pct">99.97%</span>
                                     <span>Operational</span>
                                 </div>
@@ -3080,7 +3091,7 @@
                                     <span class="service-name">Workflows</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">85ms</span>
+                                    <span class="service-latency">32ms</span>
                                     <span class="service-uptime-pct">99.97%</span>
                                     <span>Operational</span>
                                 </div>
@@ -3296,7 +3307,7 @@
                                     <span class="service-name">Audit Service</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">121ms</span>
+                                    <span class="service-latency">70ms</span>
                                     <span class="service-uptime-pct">99.98%</span>
                                     <span>Operational</span>
                                 </div>
@@ -3497,7 +3508,7 @@
                                     <span class="service-name">Data Management</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">121ms</span>
+                                    <span class="service-latency">70ms</span>
                                     <span class="service-uptime-pct">99.98%</span>
                                     <span>Operational</span>
                                 </div>
@@ -3698,7 +3709,7 @@
                                     <span class="service-name">Projects</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">121ms</span>
+                                    <span class="service-latency">70ms</span>
                                     <span class="service-uptime-pct">99.98%</span>
                                     <span>Operational</span>
                                 </div>
@@ -3914,7 +3925,7 @@
                                     <span class="service-name">Assistant</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">85ms</span>
+                                    <span class="service-latency">45ms</span>
                                     <span class="service-uptime-pct">99.98%</span>
                                     <span>Operational</span>
                                 </div>
@@ -4115,7 +4126,7 @@
                                     <span class="service-name">Meeting</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">85ms</span>
+                                    <span class="service-latency">45ms</span>
                                     <span class="service-uptime-pct">99.98%</span>
                                     <span>Operational</span>
                                 </div>
@@ -4532,7 +4543,7 @@
                                     <span class="service-name">Auth Services</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">85ms</span>
+                                    <span class="service-latency">45ms</span>
                                     <span class="service-uptime-pct">99.98%</span>
                                     <span>Operational</span>
                                 </div>
@@ -4733,7 +4744,7 @@
                                     <span class="service-name">External Queue Management</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">85ms</span>
+                                    <span class="service-latency">45ms</span>
                                     <span class="service-uptime-pct">99.98%</span>
                                     <span>Operational</span>
                                 </div>
@@ -4934,7 +4945,7 @@
                                     <span class="service-name">IAM Services</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">85ms</span>
+                                    <span class="service-latency">42ms</span>
                                     <span class="service-uptime-pct">99.98%</span>
                                     <span>Operational</span>
                                 </div>
@@ -5135,7 +5146,7 @@
                                     <span class="service-name">Internal Queue Management</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">85ms</span>
+                                    <span class="service-latency">46ms</span>
                                     <span class="service-uptime-pct">99.85%</span>
                                     <span>Operational</span>
                                 </div>
@@ -5336,7 +5347,7 @@
                                     <span class="service-name">Notification Services</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">85ms</span>
+                                    <span class="service-latency">32ms</span>
                                     <span class="service-uptime-pct">99.98%</span>
                                     <span>Operational</span>
                                 </div>
@@ -5537,7 +5548,7 @@
                                     <span class="service-name">Queue Service</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">91ms</span>
+                                    <span class="service-latency">47ms</span>
                                     <span class="service-uptime-pct">99.98%</span>
                                     <span>Operational</span>
                                 </div>
@@ -5738,7 +5749,7 @@
                                     <span class="service-name">Settings</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">73ms</span>
+                                    <span class="service-latency">29ms</span>
                                     <span class="service-uptime-pct">99.98%</span>
                                     <span>Operational</span>
                                 </div>
@@ -5939,7 +5950,7 @@
                                     <span class="service-name">Tenant Services</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">73ms</span>
+                                    <span class="service-latency">29ms</span>
                                     <span class="service-uptime-pct">99.98%</span>
                                     <span>Operational</span>
                                 </div>
@@ -6140,7 +6151,7 @@
                                     <span class="service-name">Timely Job Services</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">74ms</span>
+                                    <span class="service-latency">34ms</span>
                                     <span class="service-uptime-pct">99.98%</span>
                                     <span>Operational</span>
                                 </div>
@@ -6356,7 +6367,7 @@
                                     <span class="service-name">Document Sign</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">72ms</span>
+                                    <span class="service-latency">32ms</span>
                                     <span class="service-uptime-pct">99.98%</span>
                                     <span>Operational</span>
                                 </div>
@@ -6557,7 +6568,7 @@
                                     <span class="service-name">Documents</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">72ms</span>
+                                    <span class="service-latency">32ms</span>
                                     <span class="service-uptime-pct">99.98%</span>
                                     <span>Operational</span>
                                 </div>
@@ -6758,7 +6769,7 @@
                                     <span class="service-name">Indexer</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">74ms</span>
+                                    <span class="service-latency">32ms</span>
                                     <span class="service-uptime-pct">99.98%</span>
                                     <span>Operational</span>
                                 </div>
@@ -6959,7 +6970,7 @@
                                     <span class="service-name">Search Services</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">74ms</span>
+                                    <span class="service-latency">32ms</span>
                                     <span class="service-uptime-pct">99.98%</span>
                                     <span>Operational</span>
                                 </div>
@@ -7160,7 +7171,7 @@
                                     <span class="service-name">Storage</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">72ms</span>
+                                    <span class="service-latency">32ms</span>
                                     <span class="service-uptime-pct">99.98%</span>
                                     <span>Operational</span>
                                 </div>
@@ -7376,7 +7387,7 @@
                                     <span class="service-name">Admin Portal</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">99ms</span>
+                                    <span class="service-latency">126ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -7577,7 +7588,7 @@
                                     <span class="service-name">Agentic Platform</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">138ms</span>
+                                    <span class="service-latency">102ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -7778,7 +7789,7 @@
                                     <span class="service-name">Docs Portal</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">160ms</span>
+                                    <span class="service-latency">238ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -7979,7 +7990,7 @@
                                     <span class="service-name">Resources Platform</span>
                                 </div>
                                 <div class="service-right">
-                                    <span class="service-latency">265ms</span>
+                                    <span class="service-latency">216ms</span>
                                     <span class="service-uptime-pct">100.0%</span>
                                     <span>Operational</span>
                                 </div>
@@ -10768,10 +10779,7 @@
             const urlParams = new URLSearchParams(window.location.search);
             const hideLogo = urlParams.get('hideLogo');
             if (hideLogo === '1' || hideLogo === 'true') {
-                const brandLogo = document.querySelector('.brand-logo');
-                if (brandLogo) {
-                    brandLogo.style.display = 'none';
-                }
+                document.documentElement.classList.add('embed-hide-logo');
             }
 
             const savedTheme = localStorage.getItem('saras-status-theme');
